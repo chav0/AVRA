@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sauce : MonoBehaviour {
+public class Sauce : ExtendedType {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    [SerializeField]
+    private ParticleSystem _particles;
+
+    private void Awake()
+    {
+        _sliced = true;
+        _fried = true;
+        _currentProduct = Instantiate(_rawGO, transform);
+    }
 }

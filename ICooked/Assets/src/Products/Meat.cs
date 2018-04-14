@@ -2,15 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Meat : MonoBehaviour {
+public class Meat : ExtendedType {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    private void Awake()
+    {
+        if (_type == Type.Meat)
+        {
+            _sliced = true;
+            _fried = true;
+            _currentProduct = Instantiate(_rawGO, transform);
+        }
+
+        if (_type == Type.Cutlet)
+        {
+            _sliced = false;
+            _fried = false; 
+            _currentProduct = Instantiate(_rawGO, transform);
+        }
+
+        if (_type == Type.Susage)
+        {
+            _sliced = false;
+            _fried = false;
+            _currentProduct = Instantiate(_rawGO, transform);
+        }
+    }
 }

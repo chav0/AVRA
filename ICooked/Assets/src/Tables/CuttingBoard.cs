@@ -9,9 +9,9 @@ public class CuttingBoard : MonoBehaviour {
 
     public bool _isEmpty; // занята ли разделочная доска 
     public bool _isCollision; 
-    public Product _currentProduct;
+    public ExtendedType _currentProduct;
 
-    private Product collisionProduct; 
+    private ExtendedType collisionProduct; 
 
     private void Awake () {
         _isEmpty = true; 
@@ -20,7 +20,7 @@ public class CuttingBoard : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Collision");
-        collisionProduct = other.gameObject.GetComponent<Product>();
+        collisionProduct = other.gameObject.GetComponent<ExtendedType>();
         if (collisionProduct != null && _isEmpty)
         {
             _isCollision = true; 
@@ -29,12 +29,18 @@ public class CuttingBoard : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        collisionProduct = other.gameObject.GetComponent<Product>();
-        if (collisionProduct != null && !_isEmpty)
+        collisionProduct = other.gameObject.GetComponent<ExtendedType>();
+        if (collisionProduct != null)
         {
-            //collisionProduct.transform.SetParent(_productContainer); // положить в контейнер продукт 
+            if (!_isEmpty)
+            {
+                if (collisionProduct == _currentProduct)
+                {
+                    _currentProduct = null; 
+                }
+            }
             Debug.Log("OnExit");
-            _isEmpty = true;
+            collisionProduct = null;
         }
     }
 
@@ -46,7 +52,7 @@ public class CuttingBoard : MonoBehaviour {
             collisionProduct.transform.SetParent(_productContainer, true);
             _isEmpty = false;
             collisionProduct.transform.localPosition = Vector3.zero;
-
+            collisionProduct = null; 
         }
     }
 }
