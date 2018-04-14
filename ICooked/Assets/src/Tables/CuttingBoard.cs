@@ -23,7 +23,15 @@ public class CuttingBoard : MonoBehaviour {
         collisionProduct = other.gameObject.GetComponent<ExtendedType>();
         if (collisionProduct != null && _isEmpty)
         {
-            _isCollision = true; 
+            collisionProduct.transform.SetParent(_productContainer, true);
+            _isEmpty = false;
+            collisionProduct.GetComponent<Rigidbody>().freezeRotation = true;
+            collisionProduct.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll; 
+            collisionProduct.transform.eulerAngles = Vector3.zero;
+            collisionProduct.transform.localPosition = Vector3.zero;
+            collisionProduct.GetComponent<Rigidbody>().freezeRotation = false;
+            collisionProduct.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+            collisionProduct = null;
         }
     }
 

@@ -92,7 +92,7 @@ public class Recipe : MonoBehaviour {
 
 public class ExtendedType : MonoBehaviour
 {
-    public Type _type;
+    public TypeProducts _type;
     public bool _sliced;
     public bool _fried;
 
@@ -124,34 +124,41 @@ public class ExtendedType : MonoBehaviour
     [SerializeField]
     protected GameObject _rawGO; // сырой продукт
     [SerializeField]
+    protected GameObject _halfSlicedGO; // наполовину нарезанный продукт
+    [SerializeField]
     protected GameObject _slicedGO; // нарезанный продукт
 
     protected GameObject _currentProduct;
     protected int _sliceNum;
 
     protected int _sliceMax = 3;
+    protected int _sliceMin = 2; 
 
     public void IncSlice()
     {
         _sliceNum++;
+        if (_sliceNum == _sliceMin)
+        {
+            ChangeForSliced(_halfSlicedGO);
+        }
         if (_sliceNum == _sliceMax)
         {
-            ChangeForSliced();
+            ChangeForSliced(_slicedGO);
+            SetSliced(true);
         }
     }
 
-    public void ChangeForSliced()
+    public void ChangeForSliced(GameObject _newGO)
     {
         if (!_sliced && _slicedGO != null)
         {
             Destroy(_currentProduct);
-            _currentProduct = Instantiate(_slicedGO, transform);
-            SetSliced(true); // установить как разрезанный 
+            _currentProduct = Instantiate(_newGO, transform);
         }
     }
 }
 
-public enum Type
+public enum TypeProducts
 {
     Tomato = 1,
     Cucumber = 2,

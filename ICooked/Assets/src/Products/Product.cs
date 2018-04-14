@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Product : ExtendedType
 {
+    [SerializeField]
+    private ParticleSystem _particles; 
 
     private void Awake()
     {
@@ -12,8 +14,9 @@ public class Product : ExtendedType
         _sliced = false;
         _fried = true; 
         _currentProduct = Instantiate(_rawGO, transform);
+        
 
-        if (_type == Type.Salad)
+        if (_type == TypeProducts.Salad)
         {
             _sliced = true; 
         }

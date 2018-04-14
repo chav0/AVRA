@@ -7,21 +7,21 @@ public class Meat : ExtendedType {
 
     private void Awake()
     {
-        if (_type == Type.Meat)
+        if (_type == TypeProducts.Meat)
         {
             _sliced = true;
             _fried = true;
             _currentProduct = Instantiate(_rawGO, transform);
         }
 
-        if (_type == Type.Cutlet)
+        if (_type == TypeProducts.Cutlet)
         {
             _sliced = false;
             _fried = false; 
             _currentProduct = Instantiate(_rawGO, transform);
         }
 
-        if (_type == Type.Susage)
+        if (_type == TypeProducts.Susage)
         {
             _sliced = false;
             _fried = false;

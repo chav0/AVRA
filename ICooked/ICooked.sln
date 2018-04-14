@@ -1,7 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2017
+# Visual Studio 2015
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICooked", "ICooked.csproj", "{B1D3E665-00A1-F6DA-34FA-8751B924F16F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICooked.Editor", "ICooked.Editor.csproj", "{A0CFEEAE-8F2C-8DB1-91C6-CC6A39CDF6B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +15,10 @@ Global
 		{B1D3E665-00A1-F6DA-34FA-8751B924F16F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1D3E665-00A1-F6DA-34FA-8751B924F16F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1D3E665-00A1-F6DA-34FA-8751B924F16F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0CFEEAE-8F2C-8DB1-91C6-CC6A39CDF6B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0CFEEAE-8F2C-8DB1-91C6-CC6A39CDF6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0CFEEAE-8F2C-8DB1-91C6-CC6A39CDF6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0CFEEAE-8F2C-8DB1-91C6-CC6A39CDF6B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
