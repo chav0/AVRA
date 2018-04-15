@@ -1,21 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 
 public class Recipe : MonoBehaviour {
 
+    [System.Serializable]
     public class RecipePoint
     {
-        public ExtendedType _extendedType;
-        public Image _checkPoint; 
+        public TypeProducts _type;
+        public bool _sliced;
+        public bool _fried;
+        public bool _burned;
+        public Image _checkPoint;
     }
 
+    [System.Serializable]
     public class Ingredient
     {
-        public ExtendedType _extendedType;
-        public GameObject _gameObject;
-        public bool _isAdded; 
+        public TypeProducts _type;
+        public bool _sliced;
+        public MeshRenderer _mesh;
+        public bool _isAdded;
     }
 
     [SerializeField]
@@ -25,7 +31,7 @@ public class Recipe : MonoBehaviour {
     private Ingredient[] _ingredients; 
 
     [SerializeField]
-    private Transform _productContainer; 
+    public Transform _productContainer; 
 
     [SerializeField]
     private Sprite _check;
@@ -33,7 +39,8 @@ public class Recipe : MonoBehaviour {
     [SerializeField]
     private Sprite _uncheck;
 
-    private ExtendedType collisionProduct; 
+    private ExtendedType collisionProduct;
+    private float level = 0f; 
 
     private void OnTriggerEnter(Collider other) 
     {
@@ -41,51 +48,55 @@ public class Recipe : MonoBehaviour {
         
         if (collisionProduct != null)
         {
-            Debug.Log("Added " + collisionProduct._type.ToString());  
+            SetProduct(collisionProduct); 
         }
     }
 
-    private void SetProduct(ExtendedType _product) // положить продукт внутрь булочки 
+    public void SetProduct(ExtendedType _product) // положить продукт внутрь булочки 
     {
         foreach (Ingredient item in _ingredients)
         {
-            if (_product._type == item._extendedType._type && _product._sliced == item._extendedType._sliced)
+            if (_product._type == item._type && _product._sliced == item._sliced)
             {
                 if (!item._isAdded)
                 {
-                    item._gameObject.SetActive(true);
+                    level += 0.0111f;
+                    item._mesh.transform.parent.localPosition = new Vector3(0f, level, 0f); 
+                    item._mesh.transform.parent.gameObject.SetActive(true);
+                    if (_product._fried)
+                    {
+                        item._mesh.material = _product._friedGO; 
+                    }
+                    if (_product._burned)
+                    {
+                        item._mesh.material = _product._burnedGO;
+                    }
+                    CheckProduct(_product);
                 }
             }
-            Destroy(_product.gameObject); 
-        }
 
-        CheckProduct(_product); 
+        }
+        Destroy(_product.gameObject);
     }
 
     public void CheckProduct(ExtendedType _product) // проверить, есть ли продукт в рецепте 
     {
         foreach (RecipePoint item in _recipe)
         {
-            if (_product._type == item._extendedType._type)
+            if (_product._type == item._type)
             {
-                if (_product._sliced == item._extendedType._sliced)
+                if (_product._sliced == item._sliced && _product._fried == item._fried && _product._burned == item._burned)
                 {
                     item._checkPoint.sprite = _check;
+                    Debug.Log("check"); 
                 }
                 else
                 {
                     item._checkPoint.sprite = _uncheck;
+                    Debug.Log("uncheck");
                 }
                 return;
             }
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && collisionProduct != null)
-        {
-            SetProduct(collisionProduct); 
         }
     }
 }
@@ -95,6 +106,7 @@ public class ExtendedType : MonoBehaviour
     public TypeProducts _type;
     public bool _sliced;
     public bool _fried;
+    public bool _burned;
 
     public bool GetSliced()
     {
@@ -116,9 +128,15 @@ public class ExtendedType : MonoBehaviour
         _fried = fried;
     }
 
-    [Header("Спрайтшит для партиклов")]
-    [SerializeField]
-    protected Sprite _particlesSpriteShit;
+    public bool GetBurned()
+    {
+        return _burned;
+    }
+
+    public void SetBurned(bool burned)
+    {
+        _burned = burned;
+    }
 
     [Header("Геймобджекты разных типов")]
     [SerializeField]
@@ -127,6 +145,10 @@ public class ExtendedType : MonoBehaviour
     protected GameObject _halfSlicedGO; // наполовину нарезанный продукт
     [SerializeField]
     protected GameObject _slicedGO; // нарезанный продукт
+    [SerializeField]
+    public Material _friedGO; // пожаренный продукт
+    [SerializeField]
+    public Material _burnedGO; // сгоревший
 
     protected GameObject _currentProduct;
     protected int _sliceNum;
@@ -134,7 +156,7 @@ public class ExtendedType : MonoBehaviour
     protected int _sliceMax = 3;
     protected int _sliceMin = 2; 
 
-    public void IncSlice()
+    public virtual void IncSlice()
     {
         _sliceNum++;
         if (_sliceNum == _sliceMin)
@@ -171,6 +193,10 @@ public enum TypeProducts
     Mustard = 9,
     Susage = 10, 
     Meat = 11, 
-    Cutlet = 12, 
-    Salad = 13
+    Hum = 12, 
+    Salad = 13,
+    Bread = 14, 
+    Pita = 15, 
+
 }
+

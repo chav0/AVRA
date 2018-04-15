@@ -19,7 +19,7 @@ public class Mobile : MonoBehaviour {
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadEnter) || !_source.isPlaying)
+        if (OVRInput.Get(OVRInput.Button.One) || !_source.isPlaying)
         {
             i++; 
             if (i >= _clips.Length)

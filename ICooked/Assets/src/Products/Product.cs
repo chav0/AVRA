@@ -4,22 +4,45 @@ using UnityEngine;
 
 public class Product : ExtendedType
 {
+    [Header("Материал для партиклов")]
     [SerializeField]
-    private ParticleSystem _particles; 
+    protected Material _particlesSpriteShit;
+
+    [Header("Партиклы")]
+    [SerializeField]
+    private ParticleSystemRenderer _particles;
+
+    [Header("Звук разрезания")]
+    [SerializeField]
+    private AudioSource _sound; 
 
     private void Awake()
     {
         _sliceMax = 5; 
         _sliceNum = 0;
         _sliced = false;
-        _fried = true; 
+        _fried = false;
+        _burned = false;  
         _currentProduct = Instantiate(_rawGO, transform);
-        
 
-        if (_type == TypeProducts.Salad)
+        _particles.material = _particlesSpriteShit;
+    }
+
+    public override void IncSlice()
+    {
+        _sliceNum++;
+        if (_sliceNum == _sliceMin)
         {
-            _sliced = true; 
+            ChangeForSliced(_halfSlicedGO);
         }
+        if (_sliceNum == _sliceMax)
+        {
+            ChangeForSliced(_slicedGO);
+            SetSliced(true);
+        }
+
+        _particles.GetComponent<ParticleSystem>().Play();
+        _sound.Play(); 
     }
 }
 

@@ -14,7 +14,7 @@ public class Meat : ExtendedType {
             _currentProduct = Instantiate(_rawGO, transform);
         }
 
-        if (_type == TypeProducts.Cutlet)
+        if (_type == TypeProducts.Hum)
         {
             _sliced = false;
             _fried = false; 
